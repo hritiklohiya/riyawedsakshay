@@ -1,0 +1,108 @@
+/* ============================================================
+   home.css (v2): cover, invitation, four tabs with text, venue, closing.
+   Text colours follow your PDF: maroon on cream, teal names, gold labels.
+   ============================================================ */
+.home { position: relative; background: var(--cream); }
+.section-title { font-family: var(--font-label); font-size: .82rem; font-weight: 600; letter-spacing: .3em; text-transform: uppercase; text-align: center; color: #a87a1b; margin: 0 0 1.4rem; }
+.divider { width: 160px; height: 14px; margin: 1.1rem auto; position: relative; background: linear-gradient(90deg, transparent, var(--gold) 30%, var(--gold) 70%, transparent) center / 100% 1px no-repeat; }
+.divider::after { content: ''; position: absolute; left: 50%; top: 50%; width: 9px; height: 9px; background: var(--gold); transform: translate(-50%, -50%) rotate(45deg); }
+
+/* ================= COVER ================= */
+.cover { position: relative; min-height: 100vh; min-height: 100dvh; overflow: hidden; background: var(--cream); }
+.cover__bg, .cover__frame { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.cover__frame { pointer-events: none; z-index: 2; mix-blend-mode: multiply; }   /* white parts of the frame disappear */
+.cover__shade { display: none; }
+.cover__content {
+  position: relative; z-index: 3; min-height: 100vh; min-height: 100dvh;
+  padding: calc(var(--safe-top) + 6vh) 14% calc(var(--safe-bottom) + 12vh);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; color: var(--maroon);
+}
+.cover__monogram { width: 64px; height: auto; mix-blend-mode: multiply; margin-bottom: .3rem; }
+.cover__blessing { font-family: var(--font-label); font-size: .64rem; letter-spacing: .24em; text-transform: uppercase; color: #8a6414; }
+.cover__names { font-size: clamp(2.5rem, 11.5vw, 3.5rem); margin: .1em 0; color: var(--maroon); text-shadow: 0 0 14px rgba(251, 239, 217, .95); }
+.cover__hashtag { font-style: italic; font-size: .95rem; color: #8a6414; margin-bottom: 1rem; }
+.cover__scratch { width: min(100%, 270px); }
+.cover__venue { margin-top: .9rem; font-size: .98rem; color: var(--maroon); font-weight: 600; text-shadow: 0 0 10px rgba(251, 239, 217, .95); }
+.cover__scroll { margin-top: 1rem; font-size: 0; animation: coverBob 2s ease-in-out infinite; }
+.cover__scroll::after { content: ''; display: block; width: 1px; height: 26px; margin: 0 auto; background: var(--gold); }
+@keyframes coverBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+.scratch { height: 78px; border: 2px solid var(--gold); border-radius: 12px; background: var(--cream); box-shadow: 0 6px 18px rgba(90,15,35,.3), inset 0 0 0 3px rgba(200,150,42,.25); display: flex; align-items: center; justify-content: center; }
+.scratch__date { font-family: var(--font-label); font-weight: 600; font-size: .98rem; letter-spacing: .05em; color: var(--maroon); text-align: center; padding: 0 .5rem; }
+.scratch__hint { font-family: var(--font-label); font-size: .56rem; letter-spacing: .14em; text-transform: uppercase; color: var(--maroon-deep); background: rgba(251,239,217,.92); padding: .25em .8em; border-radius: 99px; }
+.scratch.is-revealed { animation: dateGlow 1.6s ease-out; }
+@keyframes dateGlow { 0% { box-shadow: 0 0 0 0 rgba(230,193,90,.9); } 100% { box-shadow: 0 0 0 26px rgba(230,193,90,0); } }
+
+/* ================= INVITATION (like PDF page 2) ================= */
+.invite { padding: 2.5rem 5%; background: #f4dfbc var(--paper) center / cover; }
+.invite__card { border: 2px solid var(--gold); outline: 1px solid var(--gold); outline-offset: 5px; border-radius: 160px 160px 14px 14px; padding: 4rem 7% 2.6rem; background: rgba(251,239,217,.88); text-align: center; }
+.invite__blessings { font-family: var(--font-label); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--maroon); line-height: 2; font-weight: 600; }
+.invite__text { font-size: 1.16rem; margin: .5rem 0; color: #4a1a24; }
+.invite__hosts { font-size: 1.35rem; font-weight: 700; color: var(--maroon); margin: .5rem 0; }
+.invite__name { font-size: 3.6rem; color: #1f6f7a; margin: .1em 0 0; }
+.invite__parents { font-size: 1.02rem; font-style: italic; margin: 0 0 .3rem; color: #4a1a24; }
+.invite__connector { font-family: var(--font-label); font-size: .9rem; letter-spacing: .3em; color: #a87a1b; margin: .5rem 0; text-transform: uppercase; }
+.invite__closing { font-size: 1.12rem; margin-top: 1.2rem; font-style: italic; color: #4a1a24; }
+
+/* ================= FOUR TABS (text on every card) ================= */
+.tabs { padding: 3rem 5%; background: linear-gradient(180deg, #f4dfbc, var(--cream)); }
+.tabs__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tab { position: relative; display: block; aspect-ratio: 3 / 4.3; border-radius: var(--radius); overflow: hidden; border: 2px solid var(--gold); background: var(--maroon-deep); text-decoration: none; color: var(--cream); box-shadow: 0 6px 18px rgba(90,15,35,.3); -webkit-tap-highlight-color: transparent; transition: transform .25s var(--ease); }
+.tab:active { transform: scale(.97); }
+.tab:focus-visible { outline: 3px solid var(--saffron); outline-offset: 3px; }
+.tab__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
+.tab__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(40,6,16,.15) 0%, rgba(40,6,16,0) 28%, rgba(40,6,16,.92) 100%); }
+.tab__text { position: absolute; left: 0; right: 0; bottom: 0; padding: .7rem .6rem .8rem; text-align: center; }
+.tab__name { display: inline-block; font-family: var(--font-label); font-weight: 600; font-size: .78rem; letter-spacing: .2em; text-transform: uppercase; color: #3a0a16; background: linear-gradient(180deg, var(--gold-light), var(--gold)); padding: .3em 1em; border-radius: 99px; }
+.tab__title { display: block; font-size: .98rem; line-height: 1.2; font-weight: 700; margin: .5rem 0 .3rem; color: #fff; }
+.tab__when { display: block; font-size: .85rem; color: var(--gold-light); letter-spacing: .03em; }
+
+/* ================= VENUE ================= */
+.venue { padding: 3rem 5%; background: var(--cream); }
+.venue__card { background: #fff7e8 var(--paper) center / cover; border: 2px solid var(--gold); border-radius: var(--radius); padding: 2rem 1.2rem; text-align: center; box-shadow: 0 8px 24px rgba(90,15,35,.18), inset 0 0 0 4px rgba(200,150,42,.18); }
+.venue__name { font-size: 1.7rem; font-weight: 700; color: var(--maroon); margin: 0; }
+.venue__address { font-size: 1.12rem; margin: .3rem 0 1.2rem; color: #4a1a24; }
+
+/* ================= COUNTDOWN SLOT ================= */
+.home__countdown { position: relative; background: var(--maroon-deep); }
+/* stopgap for couple pictures with white backgrounds */
+.cd__fig, .cd__together { mix-blend-mode: multiply !important; filter: none !important; }
+
+/* ================= CLOSING (share only, no calendar) ================= */
+.closing { padding: 3.6rem 8% calc(3.2rem + var(--safe-bottom)); text-align: center; color: var(--cream); background: radial-gradient(circle at 50% 0%, #9a1a45, var(--maroon-deep) 70%); }
+.closing__line1 { font-family: var(--font-label); font-size: .82rem; letter-spacing: .3em; text-transform: uppercase; color: var(--gold-light); }
+.closing__line2 { font-family: var(--font-names); font-size: clamp(2.6rem, 13vw, 3.6rem); margin: .2em 0 1.4rem; color: #fff; }
+.closing__actions { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.closing__actions .btn { min-width: 240px; }
+
+/* calendar buttons are removed everywhere (stopgap in case page.js still builds one) */
+.fpage__actions button { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) { .cover__scroll, .scratch.is-revealed { animation: none; } }
+
+/* ============ v3 fixes ============ */
+/* white backgrounds removed by an SVG filter (see index.html #keyw) */
+.cover__monogram, .cd__fig, .cd__together, .fpage__procession img { filter: url(#keyw) !important; mix-blend-mode: normal !important; }
+
+/* cover: logo + blessing on top, names/date/venue on the clear floor of the picture */
+.cover__content { justify-content: space-between; padding: calc(var(--safe-top) + 3vh) 20% calc(var(--safe-bottom) + 3.5vh); }
+.cover__monogram { width: 56px; margin-bottom: 0; }
+.cover__blessing { color: #5a0f23; text-shadow: 0 0 8px rgba(251,239,217,.95); font-size: .6rem; }
+.cover__bottom { display: flex; flex-direction: column; align-items: center; width: 100%; }
+.cover__names { font-size: clamp(2.1rem, 9.5vw, 2.8rem); line-height: 1; margin: 0; text-shadow: 0 0 12px rgba(251,239,217,1), 0 0 4px rgba(251,239,217,1); }
+.cover__hashtag { font-size: .85rem; color: #5a0f23; margin: .2rem 0 .6rem; text-shadow: 0 0 8px rgba(251,239,217,1); }
+.cover__scratch { width: min(100%, 240px); }
+.scratch { height: 64px; }
+.scratch__date { font-size: .86rem; }
+.cover__venue { font-size: .82rem; margin-top: .5rem; text-shadow: 0 0 8px rgba(251,239,217,1), 0 0 3px rgba(251,239,217,1); }
+.cover__scroll { display: none; }
+
+/* function pages: smaller headings, soft glow so text reads on the art */
+.fpage .fpage__heading { font-size: clamp(1.45rem, 6.4vw, 1.95rem); text-shadow: 0 0 12px var(--glow, rgba(255,244,222,.9)); }
+.fpage .fpage__date { font-size: 1.02rem; }
+.fpage .fpage__time { font-size: .82rem; }
+.fpage .fpage__venue { font-size: .95rem; margin-top: .5rem; }
+.fpage .fpage__label { font-size: .7rem; }
+.fpage .fpage__nav .btn { min-height: 38px; font-size: .62rem; }
+.cover__top { display: flex; flex-direction: column; align-items: center; }

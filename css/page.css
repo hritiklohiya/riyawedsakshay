@@ -1,0 +1,292 @@
+/* ============================================================
+   page.css: shared function-page template (Haldi, Sangeet, Mayra, Reception)
+   Structure that js/page.js will build:
+   .fpage  (has CSS vars: --zone-top --zone-bottom --zone-color --zone-color2 --zone-align)
+     .fpage__scene            full-screen background image
+     .fpage__fx               effects layer (petals, stars, beams, glow, lamps)
+     .fpage__layers           parallax pieces
+        .piece                (parallax wrapper: sets --depth, JS sets --px/--py)
+          .piece__img         (loop animation lives here: .anim-sway / -swing / -float / -flicker / -bob)
+     .fpage__procession       walking procession (Reception only)
+     .fpage__text             text zone
+        .fpage__label  .fpage__heading  .fpage__date  .fpage__time
+        .fpage__venue  .fpage__actions
+     .fpage__nav              Back / Previous / Next
+   ============================================================ */
+
+.fpage {
+  --zone-top: 8%;
+  --zone-bottom: 35%;
+  --zone-color: var(--maroon);
+  --zone-color2: var(--maroon);
+  --zone-align: center;
+  --px: 0;                      /* parallax offsets, set by JS (-1 to 1) */
+  --py: 0;
+
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: var(--maroon-deep);
+  isolation: isolate;
+}
+
+/* ---------- scene background ---------- */
+.fpage__scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  transform: translate3d(calc(var(--px) * -4px), calc(var(--py) * -4px), 0) scale(1.04);  /* slowest layer */
+  transition: transform .25s ease-out;
+}
+
+/* ---------- effects layer ---------- */
+.fpage__fx {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* warm sun glow (Haldi) */
+.fx-glow {
+  position: absolute;
+  top: -12%; left: 50%;
+  width: 130%; height: 60%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at 50% 30%, rgba(255, 214, 120, .55), rgba(255, 190, 80, 0) 65%);
+  animation: fxGlow 6s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+@keyframes fxGlow { 0%, 100% { opacity: .6; } 50% { opacity: 1; } }
+
+/* falling marigold petals (JS sets left, size, duration, delay) */
+.fx-petal {
+  position: absolute;
+  top: -8%;
+  width: var(--s, 12px);
+  height: calc(var(--s, 12px) * 1.4);
+  border-radius: 60% 40% 60% 40%;
+  background: radial-gradient(circle at 30% 30%, #ffd45a, #f4a623 70%, #d97a0b);
+  opacity: .9;
+  animation: fxFall var(--d, 9s) linear var(--delay, 0s) infinite;
+}
+@keyframes fxFall {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+  10%  { opacity: .95; }
+  50%  { transform: translate3d(var(--sway, 24px), 55vh, 0) rotate(180deg); }
+  100% { transform: translate3d(calc(var(--sway, 24px) * -1), 112vh, 0) rotate(360deg); opacity: .6; }
+}
+
+/* twinkling stars (Sangeet) */
+.fx-star {
+  position: absolute;
+  width: var(--s, 3px);
+  height: var(--s, 3px);
+  border-radius: 50%;
+  background: #fff8dc;
+  box-shadow: 0 0 6px 2px rgba(255, 240, 180, .8);
+  animation: fxTwinkle var(--d, 3s) ease-in-out var(--delay, 0s) infinite;
+}
+@keyframes fxTwinkle { 0%, 100% { opacity: .15; transform: scale(.7); } 50% { opacity: 1; transform: scale(1.3); } }
+
+/* moving light beams (Sangeet) */
+.fx-beam {
+  position: absolute;
+  top: -10%;
+  width: 34%; height: 85%;
+  background: linear-gradient(180deg, rgba(255, 230, 150, .5), rgba(255, 230, 150, 0) 85%);
+  clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+  mix-blend-mode: screen;
+  transform-origin: 50% 0;
+  filter: blur(2px);
+}
+.fx-beam--a { left: -4%;  animation: fxBeamA 7s ease-in-out infinite; }
+.fx-beam--b { right: -4%; animation: fxBeamB 8.5s ease-in-out infinite; }
+@keyframes fxBeamA { 0%, 100% { transform: rotate(-16deg); opacity: .55; } 50% { transform: rotate(14deg); opacity: .95; } }
+@keyframes fxBeamB { 0%, 100% { transform: rotate(16deg); opacity: .55; } 50% { transform: rotate(-14deg); opacity: .95; } }
+
+/* flickering lamps (Reception) */
+.fx-lamp {
+  position: absolute;
+  width: var(--s, 26px);
+  height: var(--s, 26px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 220, 140, .95) 0%, rgba(255, 170, 60, .45) 40%, rgba(255, 150, 40, 0) 70%);
+  mix-blend-mode: screen;
+  animation: fxFlicker var(--d, 2.2s) ease-in-out var(--delay, 0s) infinite;
+}
+@keyframes fxFlicker {
+  0%, 100% { opacity: .95; transform: scale(1); }
+  20% { opacity: .55; transform: scale(.88); }
+  45% { opacity: 1; transform: scale(1.1); }
+  70% { opacity: .65; transform: scale(.94); }
+}
+
+/* ---------- parallax pieces ---------- */
+.fpage__layers {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+/* JS sets: left, top, width as inline styles, and --depth (0.2 far to 1.4 near) */
+.piece {
+  position: absolute;
+  transform: translate3d(calc(var(--px) * var(--depth, .6) * 14px), calc(var(--py) * var(--depth, .6) * 10px), 0);
+  transition: transform .25s ease-out;
+  will-change: transform;
+}
+.piece__img { width: 100%; height: auto; display: block; transform-origin: 50% 0; }
+
+/* loop animations (JS adds one class to .piece__img) */
+.anim-sway     { animation: pSway 6s ease-in-out infinite; }                     /* garlands */
+.anim-swing    { animation: pSwing 4.2s ease-in-out infinite; }                  /* bells */
+.anim-puppet   { animation: pPuppet 3.4s ease-in-out infinite; }                 /* puppets */
+.anim-float    { animation: pFloat 5s ease-in-out infinite; transform-origin: 50% 50%; }
+.anim-flicker  { animation: fxFlicker 2.4s ease-in-out infinite; transform-origin: 50% 50%; }
+.anim-bob      { animation: pBob 2.6s ease-in-out infinite; transform-origin: 50% 100%; }
+@keyframes pSway   { 0%, 100% { transform: rotate(-2.2deg); } 50% { transform: rotate(2.2deg); } }
+@keyframes pSwing  { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+@keyframes pPuppet { 0%, 100% { transform: rotate(-4deg) translateY(0); } 35% { transform: rotate(3deg) translateY(-5px); } 70% { transform: rotate(-2deg) translateY(2px); } }
+@keyframes pFloat  { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+@keyframes pBob    { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+/* ---------- procession (Reception) ---------- */
+.fpage__procession {
+  position: absolute;
+  left: 0;
+  bottom: 9%;
+  width: 118%;
+  z-index: 2;
+  pointer-events: none;
+  animation: procWalk 48s linear infinite alternate;
+}
+.fpage__procession img {
+  width: 100%;
+  height: auto;
+  animation: procBob 1.1s ease-in-out infinite;
+}
+@keyframes procWalk { from { transform: translateX(-24%); } to { transform: translateX(6%); } }
+@keyframes procBob  { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+
+/* ---------- text zone (position comes from content.js textZone) ---------- */
+.fpage__text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--zone-top);
+  height: calc(var(--zone-bottom) - var(--zone-top));
+  z-index: 4;
+  padding: 0 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--zone-color);
+  overflow: visible;
+}
+.fpage--left .fpage__text { align-items: flex-start; text-align: left; padding-right: 30%; }
+
+.fpage__label {
+  font-family: var(--font-label);
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  color: var(--zone-color);
+  opacity: .9;
+  margin-bottom: .5rem;
+}
+.fpage__heading {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 8.4vw, 2.7rem);
+  line-height: 1.12;
+  margin: 0 0 .7rem;
+  color: var(--zone-color);
+}
+.fpage__date,
+.fpage__time {
+  margin: 0;
+  font-size: 1.22rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+  color: var(--zone-color2);
+}
+.fpage__time { font-family: var(--font-label); font-size: .95rem; letter-spacing: .14em; margin-top: .15rem; }
+.fpage__venue {
+  margin: .9rem 0 0;
+  font-size: 1.08rem;
+  font-style: italic;
+  color: var(--zone-color2);
+}
+.fpage__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 1rem;
+  pointer-events: auto;
+}
+.fpage--left .fpage__actions { justify-content: flex-start; }
+.fpage__actions .btn { min-height: 42px; padding: .6em 1.2em; font-size: .7rem; }
+
+/* soft light pad behind dark text, switched on with .fpage--pad when needed */
+.fpage--pad .fpage__text::before {
+  content: '';
+  position: absolute;
+  inset: -4% 2%;
+  z-index: -1;
+  border-radius: 40px;
+  background: radial-gradient(ellipse at center, rgba(251, 239, 217, .55), rgba(251, 239, 217, 0) 70%);
+}
+
+/* ---------- bottom navigation ---------- */
+.fpage__nav {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 6;
+  padding: 16px 14px calc(14px + var(--safe-bottom));
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "prev next" "back back";
+  gap: 8px;
+  background: linear-gradient(180deg, rgba(40, 6, 16, 0), rgba(40, 6, 16, .82) 55%);
+}
+.fpage__nav .btn { min-height: 44px; font-size: .68rem; padding: .6em .8em; }
+.fpage__nav .nav-prev { grid-area: prev; }
+.fpage__nav .nav-next { grid-area: next; }
+.fpage__nav .nav-back { grid-area: back; }
+.fpage__nav .btn[hidden] { display: inline-flex !important; visibility: hidden; }   /* keep layout when no prev or next */
+
+/* ---------- entrance of the text (JS adds .is-in) ---------- */
+.fpage__text > * { opacity: 0; transform: translateY(18px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+.fpage.is-in .fpage__text > * { opacity: 1; transform: none; }
+.fpage.is-in .fpage__text > *:nth-child(2) { transition-delay: .12s; }
+.fpage.is-in .fpage__text > *:nth-child(3) { transition-delay: .24s; }
+.fpage.is-in .fpage__text > *:nth-child(4) { transition-delay: .36s; }
+.fpage.is-in .fpage__text > *:nth-child(5) { transition-delay: .48s; }
+.fpage.is-in .fpage__text > *:nth-child(6) { transition-delay: .6s; }
+
+/* ---------- desktop: scene stays inside the 480px column (already handled by #app) ---------- */
+
+/* ---------- reduced motion: still, simple ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .fx-petal, .fx-star, .fx-beam, .fx-lamp, .fx-glow { animation: none !important; }
+  .fx-star, .fx-lamp { opacity: .8; }
+  .fx-petal { display: none; }
+  .piece__img, .fpage__procession, .fpage__procession img { animation: none !important; }
+  .fpage__procession { transform: translateX(-8%); }
+  .fpage__scene, .piece { transform: none !important; transition: none; }
+  .fpage__text > * { opacity: 1; transform: none; transition: none; }
+}

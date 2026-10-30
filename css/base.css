@@ -1,0 +1,171 @@
+/* ============================================================
+   base.css: variables, centred column, buttons, reveal, reduced motion
+   ============================================================ */
+
+/* ---------- variables ---------- */
+:root {
+  --maroon: #7a1236;
+  --maroon-deep: #5a0f23;
+  --gold: #c8962a;
+  --gold-light: #e6c15a;
+  --cream: #fbefd9;
+  --saffron: #f4a623;
+
+  --font-body: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-label: 'Cinzel', Georgia, 'Times New Roman', serif;
+  --font-names: 'Great Vibes', 'Brush Script MT', cursive;
+
+  --col-max: 480px;          /* phone-width column */
+  --radius: 14px;
+  --ease: cubic-bezier(.22, .61, .36, 1);
+
+  /* phone safe areas (notches, home bar) */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* set by JS: url(...) of the cover image for the desktop backdrop */
+  --backdrop-image: none;
+}
+
+/* ---------- reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--maroon-deep);
+  color: var(--maroon);
+  font-family: var(--font-body);
+  font-size: 19px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+[hidden] { display: none !important; }
+
+/* ---------- blurred desktop backdrop ---------- */
+#backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--maroon-deep);
+  background-image: var(--backdrop-image);
+  background-size: cover;
+  background-position: center;
+  filter: blur(28px) brightness(.55) saturate(1.15);
+  transform: scale(1.12);       /* hides blurred edges */
+}
+
+/* ---------- centred phone-width column ---------- */
+#app {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--col-max);
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  overflow-x: hidden;
+  background: var(--cream);
+  box-shadow: 0 0 60px rgba(0, 0, 0, .55);
+}
+
+/* on small phones the column is simply full width */
+@media (max-width: 480px) {
+  #app { box-shadow: none; }
+}
+
+/* ---------- text helpers ---------- */
+.label {
+  font-family: var(--font-label);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  font-size: .72rem;
+  color: var(--gold);
+}
+
+.names {
+  font-family: var(--font-names);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+h1, h2, h3 { font-weight: 600; margin: 0 0 .4em; line-height: 1.2; }
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5em;
+  min-height: 46px;                 /* comfortable tap size */
+  padding: .7em 1.5em;
+  border: 1.5px solid var(--gold);
+  border-radius: 999px;
+  font-family: var(--font-label);
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--cream);
+  background: linear-gradient(180deg, var(--maroon) 0%, var(--maroon-deep) 100%);
+  box-shadow: 0 4px 14px rgba(90, 15, 35, .35), inset 0 1px 0 rgba(255, 255, 255, .18);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .2s var(--ease), box-shadow .2s var(--ease), filter .2s;
+}
+.btn:hover { filter: brightness(1.12); }
+.btn:active { transform: scale(.96); }
+.btn:focus-visible { outline: 3px solid var(--saffron); outline-offset: 3px; }
+
+.btn--gold {
+  color: var(--maroon-deep);
+  background: linear-gradient(180deg, var(--gold-light) 0%, var(--gold) 100%);
+  border-color: #a87a1b;
+}
+
+.btn--ghost {
+  color: var(--maroon);
+  background: transparent;
+  box-shadow: none;
+}
+
+.btn[disabled] { opacity: .45; pointer-events: none; }
+
+/* ---------- section reveal on scroll (JS adds .is-visible) ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .9s var(--ease), transform .9s var(--ease);
+  transition-delay: var(--delay, 0s);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- reusable fade for page transitions ---------- */
+.fade-in { animation: fadeIn .6s var(--ease) both; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+  #backdrop { filter: blur(28px) brightness(.55); }
+}

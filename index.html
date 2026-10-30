@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#7a1236">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%94%3C/text%3E%3C/svg%3E">
+  <meta name="description" content="You are warmly invited to the wedding of Riya &amp; Akshay, 20-21 November 2026, Maheshwari Bhawan, Ratanada, Jodhpur.">
+  <!-- WhatsApp / social preview: needs assets/link-preview.jpg (1200 x 630) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Riya &amp; Akshay | Wedding Invitation">
+  <meta property="og:description" content="You are warmly invited to the wedding celebrations, 20-21 November 2026, Jodhpur.">
+  <meta property="og:image" content="https://riyawedsakshay.in/assets/link-preview.jpg">
+  <meta property="og:url" content="https://riyawedsakshay.in/">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- error reporter: open the page with ?debug at the end of the address to see problems on the screen -->
+  <script>
+  if (/[?&]debug/.test(location.search)) {
+    var showErr = function (t) {
+      var b = document.getElementById('errbox');
+      if (!b) { b = document.createElement('pre'); b.id = 'errbox'; b.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:9999;margin:0;padding:8px;background:#b00020;color:#fff;font:12px monospace;white-space:pre-wrap;max-height:45vh;overflow:auto'; document.documentElement.appendChild(b); }
+      b.textContent += t + '\n';
+    };
+    window.addEventListener('error', function (e) {
+      if (e.target && e.target !== window && (e.target.src || e.target.href)) showErr('NOT FOUND: ' + (e.target.src || e.target.href));
+      else showErr('ERROR: ' + e.message + '  [' + String(e.filename || '').split('/').pop() + ':' + e.lineno + ']');
+    }, true);
+  }
+  </script>
+
+  <title>Riya &amp; Akshay | Wedding Invitation</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Great+Vibes&family=Parisienne&display=swap" rel="stylesheet">
+
+  <link rel="preload" as="image" href="assets/01_gate/01_gate_frame.webp">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/gate.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/page.css">
+  <link rel="stylesheet" href="css/updates.css">
+  <link rel="stylesheet" href="css/extras.css">
+</head>
+<body>
+
+  <!-- hidden SVG filter: turns pure-white picture backgrounds transparent (used as filter:url(#keyw)) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <filter id="keyw" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
+      <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -11.11 -11.11 -11.11 0 33.17" result="k"/>
+      <!-- keep pictures that are already transparent transparent (otherwise they turn into black boxes) -->
+      <feComposite in="k" in2="SourceAlpha" operator="in"/>
+    </filter>
+  </svg>
+
+  <div id="backdrop" aria-hidden="true"></div>
+
+  <div id="app" role="main">
+    <div id="gate-root"></div>
+    <div id="home-root" hidden></div>
+    <div id="page-root" hidden></div>
+  </div>
+
+  <noscript>Please turn on JavaScript to view this invitation.</noscript>
+
+  <script src="js/content.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/countdown.js"></script>
+  <script src="js/actions.js"></script>
+  <script src="js/scratch.js"></script>
+  <script src="js/gate.js"></script>
+  <script src="js/home.js"></script>
+  <script src="js/page.js"></script>
+  <script src="js/updates.js"></script>
+  <script src="js/music.js"></script>
+  <script src="js/extras.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
