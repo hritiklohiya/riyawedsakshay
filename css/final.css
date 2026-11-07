@@ -1,0 +1,27 @@
+/* final.css: loads last */
+
+/* cover: names, logo and hashtag sit lower, in the sky just above the birds */
+.cover__top { margin-top: 11dvh; }
+.cover__content { padding-bottom: calc(var(--safe-bottom, 0px) + 50px); }
+.cover__names { font-size: clamp(2rem, 8.8vw, 2.5rem); }
+
+/* scroll hint: a clear maroon pill at the bottom of the cover (pure CSS, no script needed) */
+.cover__hint { display: none; }
+.cover::after { content: "Scroll down \25BE"; position: absolute; left: 50%; bottom: calc(var(--safe-bottom, 0px) + 10px); transform: translateX(-50%); z-index: 5;
+  padding: .55em 1.4em; border-radius: 999px; background: rgba(90,15,35,.92); border: 1.5px solid #e6c15a; color: #fbefd9;
+  font-family: var(--font-label); font-size: .66rem; letter-spacing: .22em; text-transform: uppercase; white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(0,0,0,.5), 0 0 0 4px rgba(230,193,90,.2); pointer-events: none;
+  animation: hintIn .8s ease 3s both, hintBob2 1.8s ease-in-out 3.8s infinite; }
+@keyframes hintIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes hintBob2 { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 7px); } }
+@media (prefers-reduced-motion: reduce) { .cover::after { animation: none; opacity: 1; } }
+
+/* invitation: spaced capitals for "With", two-line blessing */
+.invite__blessings { letter-spacing: .16em; }
+
+/* Tap to enter: deep maroon with a gold edge, so it stands out on the golden doors */
+.gate .gate__btn { font-size: .86rem; letter-spacing: .22em; padding: .95em 2.1em; color: #fbefd9;
+  background: linear-gradient(180deg, #9a1c45 0%, #6d1130 55%, #4e0b22 100%); border: 2px solid #e6c15a;
+  box-shadow: 0 8px 22px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.28), inset 0 0 0 3px rgba(40,6,16,.35), 0 0 0 4px rgba(230,193,90,.28);
+  text-shadow: 0 1px 2px rgba(0,0,0,.6); }
+.gate .gate__btn:hover { filter: brightness(1.12); }
